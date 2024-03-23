@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "../util/auth/useUser";
 import styles from "../styles/VoteDisplay.module.css";
@@ -14,63 +14,42 @@ export default function VoteDisplay(props) {
     voted = false;
   }, []);
 
+
+
   const router = useRouter();
 
   const data = props.data;
   const id = data._id;
 
-  const voteHandler = (index) => {
-    return async () => {
-      if (!voted) {
-        voted = true;
-        updateUserCookieVotes(id);
-        await fetch(`/api/handle_vote`, {
-          method: "POST",
-          body: JSON.stringify({
-            _id: id,
-            index: index,
-            user: user.mongoData,
-            question: data.question,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        })
-          .then(() => {
-            router.push(`/poll?id=${id}`);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    };
+  const [selectedOptions, setSelectedOptions] = useState(Array(data.questions.length).fill(null));
+  const [textInput, setTextInput] = useState('');
+  const [rangeInput, setRangeInput] = useState(3); // Default value for range input
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOptionSelect = (questionIndex, optionIndex) => {
+    const newSelectedOptions = [...selectedOptions];
+    newSelectedOptions[questionIndex] = optionIndex;
+    setSelectedOptions(newSelectedOptions);
   };
 
-  // return (
-  //   <div className={styles.main}>
-  //     <div className={styles.flexColumn}>
-  //       <h1 className={styles.title}>{data.title}</h1>
-  //       {data.questions.map((question, questionIndex) => {
-  //         console.log(question.options);
-  //         if (question.options !== undefined) {
-  //           return (
-  //             <div key={questionIndex}>
-  //               <h2>{question.question}</h2> {/* Changed h1 to h2 assuming h1 is for the title */}
-  //               {question.options.map((option, optionIndex) => (
-  //                 <div key={optionIndex}>
-  //                   {user?.email && (
-  //                     <button className={styles.button}>{option.option}</button>
-  //                   )}
-  //                 </div>
-  //               ))}
-  //             </div>
-  //           );
-  //         }
-  //         return null; // Added to handle the case where options are undefined
-  //       })}
-  //     </div>
-  //   </div>
-  // );
+  const handleTextChange = (event) => {
+    setTextInput(event.target.value);
+  };
+
+  const handleRangeChange = (event) => {
+    setRangeInput(parseInt(event.target.value));
+  };
+
+  const handleSubmit = () => {
+    const answers = {
+      mcq: selectedOptions,
+      text: textInput,
+      rating: rangeInput
+    };
+    console.log(answers); // Log answers as a JavaScript object
+    setShowModal(true);
+  };
+
   return (
     <div className={styles.main}>
       <div className={styles.flexColumn}>
@@ -86,9 +65,11 @@ export default function VoteDisplay(props) {
                   {question.options.map((option, optionIndex) => (
                     <div key={optionIndex}>
                       {user?.email && (
-                        <button className={styles.button}>
-                          {String.fromCharCode(97 + optionIndex)}.{" "}
-                          {option.option}
+                        <button 
+                          className={selectedOptions[questionIndex] === optionIndex ? `${styles.button} ${styles.selected}` : styles.button}
+                          onClick={() => handleOptionSelect(questionIndex, optionIndex)}
+                        >
+                          {String.fromCharCode(97 + optionIndex)}. {option.option}
                         </button>
                       )}
                     </div>
@@ -98,28 +79,44 @@ export default function VoteDisplay(props) {
               {question.type === "rating" && (
                 <div>
                   {/* Render rating input here */}
-                  <input type="range" min="1" max="5" defaultValue="3" />
+                  <input 
+                    type="range" 
+                    min="1" 
+                    max="5" 
+                    value={rangeInput} 
+                    onChange={handleRangeChange} 
+                  />
+                  <p>Selected Rating: {rangeInput}</p>
                 </div>
               )}
               {question.type === "text" && (
-                // <div>
-                //   {/* Render text input here */}
-                //   <input className={styles.input} type="text" />
-                // </div>
-                
-                <div className={styles.inputBox}>
-                  <input
-                    className={styles.input}
-                    type="text"
-                    placeholder="Type Your Answer..."
-                    required
+                <div>
+                  {/* Render text input here */}
+                  <input 
+                    className={styles.input} 
+                    type="text" 
+                    placeholder="Type Your Answer..." 
+                    value={textInput} 
+                    onChange={handleTextChange} 
+                    required 
                   />
                 </div>
               )}
             </div>
           );
         })}
+        <button onClick={handleSubmit}>Submit</button>
+        {showModal && (
+          <div className={styles.modal}>
+            <div className={styles.modalContent}>
+              <h2>Thank you for your submission!</h2>
+              {/* Additional content in modal if needed */}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
-}
+};
+
+
