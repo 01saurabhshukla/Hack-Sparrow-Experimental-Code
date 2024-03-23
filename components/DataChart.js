@@ -83,7 +83,7 @@ function countVotes1(data){
   return (
     <>
       {data.map((data, index) => (
-        <div>
+        <div key={index}>
           <div className={styles.titleContainer} >
         <div className={styles.title} >
           {questions[index]}
