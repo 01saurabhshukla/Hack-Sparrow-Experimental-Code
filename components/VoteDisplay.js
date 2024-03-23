@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useUser } from "../util/auth/useUser";
 import styles from "../styles/VoteDisplay.module.css";
 import { updateUserCookieVotes } from "../util/auth/userCookie";
+import { ObjectId } from "bson";
 
 // Variable to check if user voted
 // Used to prevent multiple votes from registering if spam voting
@@ -25,29 +26,62 @@ export default function VoteDisplay(props) {
   const [textInput, setTextInput] = useState('');
   const [rangeInput, setRangeInput] = useState(3); // Default value for range input
   const [showModal, setShowModal] = useState(false);
+  const [questionvote,setQuestionVote]=useState(Array(data.questions.length).fill(null))
+
+// HeadAche Wala Code
+const handleSubmit =  async (questionIndex, selectedOptionIndex) => {
+  try {
+    console.log(questionvote);
+    // Send a POST request to your backend API to update the vote count
+    const response = await fetch('/api/update_vote_count', {
+      method: 'POST',
+      body: JSON.stringify({
+        "_id": ObjectId(data._id),
+        "votes" : questionvote,
+        "user" : user,
+        "types": data.questions.map((question) =>{
+          return question.type;
+        })
+        //"userid": 
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      console.log('Vote count updated successfully');
+    } else {
+      console.error('Failed to update vote count');
+    }
+  } catch (error) {
+    console.error('Error updating vote count:', error);
+  }
+};
+
+  
 
   const handleOptionSelect = (questionIndex, optionIndex) => {
     const newSelectedOptions = [...selectedOptions];
     newSelectedOptions[questionIndex] = optionIndex;
     setSelectedOptions(newSelectedOptions);
+    const vote = questionvote;
+    questionvote[questionIndex] = optionIndex;
+    setQuestionVote(questionvote);
   };
 
-  const handleTextChange = (event) => {
-    setTextInput(event.target.value);
+  const handleTextChange = (i,event) => {
+    setTextInput(event);
+    const vote = questionvote;
+    questionvote[i] = event;
+    setQuestionVote(questionvote)
   };
 
-  const handleRangeChange = (event) => {
-    setRangeInput(parseInt(event.target.value));
-  };
-
-  const handleSubmit = () => {
-    const answers = {
-      mcq: selectedOptions,
-      text: textInput,
-      rating: rangeInput
-    };
-    console.log(answers); // Log answers as a JavaScript object
-    setShowModal(true);
+  const handleRangeChange = (i,event) => {
+    setRangeInput(parseInt(event));
+    const vote = questionvote;
+    questionvote[i] = event;
+    setQuestionVote(questionvote)
   };
 
   return (
@@ -84,7 +118,7 @@ export default function VoteDisplay(props) {
                     min="1" 
                     max="5" 
                     value={rangeInput} 
-                    onChange={handleRangeChange} 
+                    onChange={(e)=>handleRangeChange(questionIndex,e.target.value)} 
                   />
                   <p>Selected Rating: {rangeInput}</p>
                 </div>
@@ -97,7 +131,7 @@ export default function VoteDisplay(props) {
                     type="text" 
                     placeholder="Type Your Answer..." 
                     value={textInput} 
-                    onChange={handleTextChange} 
+                    onChange={(e)=>handleTextChange(questionIndex,e.target.value)} 
                     required 
                   />
                 </div>

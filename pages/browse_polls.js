@@ -17,24 +17,38 @@ export async function getServerSideProps(context) {
   const polls = query.map((poll) => {
     return {
       id: poll._id.toString(),
-      question: poll.question,
-      votes: countVotes(poll.options)
+      question:poll.title?.toString(),
+          votes: countVotes(poll.questions[0])
+
+      // votes: countVotes(poll.options)
     }
   })
+  for(let i=0;i<polls.length;i++)
+console.log(polls[i]);
+  // const polls = query.map((poll) => {
+  //   return {
+  //     id: poll._id.toString(),
+  //     question: poll.question,
+  //     votes: countVotes(poll.questions.options)
+  //   }
+  // })
 
-  const sortedPolls = polls.sort((a, b) => {
-    return b.votes - a.votes
-  })
+
+
+  // const sortedPolls = polls.sort((a, b) => {
+  //   return b.votes - a.votes
+  // })
 
   return {
       props: {
           "url" : redirectLink,
-          "polls": sortedPolls
+          "polls": polls
       }
   }
 }
 
 export default function Browsepolls(props) {  
+  // console.log(props.polls);
   return (
     <div>
       <Navbar></Navbar>

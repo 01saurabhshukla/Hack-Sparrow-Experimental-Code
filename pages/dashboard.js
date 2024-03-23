@@ -26,18 +26,23 @@ export async function getServerSideProps(context) {
       })
 
   const output = JSON.parse(JSON.stringify(data))
-
+// console.log(output)
   const polls = []
   for (let i = 0; i < output.polls.length; i++) {
     await dbPolls.collection("polls").findOne(
       {
         "_id": ObjectID(output.polls[i])
     }).then((pd)=> {
+      // console.log(pd)
+      if(pd){
       polls.push({
-        id: output.polls[i],
-        question: pd.question,
-        votes: countVotes(pd.options)
+        id: pd._id.toString(),
+        question:pd.title?.toString(),
+          votes: countVotes(pd.questions[0])
+  
+      
       })
+    }
     })
   }
 
@@ -47,11 +52,14 @@ export async function getServerSideProps(context) {
       {
         "_id": ObjectID(output.votedPolls[i])
     }).then((pd)=> {
+      // console.log(pd);
+      if(pd?.title){
       votedPolls.push({
         id: output.votedPolls[i],
-        question: pd.question,
-        votes: countVotes(pd.options)
+        questions: pd.title?.toString(),
+        votes: countVotes(pd.options.questions[0])
       })
+    }
     })
   }
 

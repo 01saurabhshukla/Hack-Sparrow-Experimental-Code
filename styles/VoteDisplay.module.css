@@ -58,3 +58,32 @@
   overflow: break-word;
   font-size: 1.5rem;
 }
+
+.flexColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.input{
+  margin-left: 0.6rem;
+  height: 2.2rem;
+  border: none;
+  background: none;
+  outline: none;
+  width: calc(100% - 1rem);
+}
+
+.inputBox{
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  background-color: var(--main);
+  border-radius: 6px;
+  border-style: solid;
+  border-width: 1px;
+  margin-bottom: 10px;
+}

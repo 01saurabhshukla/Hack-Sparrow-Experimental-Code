@@ -57,7 +57,7 @@ export default function Poll(props) {
   const router = useRouter();
 
   const [data, setData] = useState(props.data);
-  const [numVotes, setNumVotes] = useState(countVotes(props.data.options));
+  const [numVotes, setNumVotes] = useState(countVotes(props.data.questions[0]));
   const [ethnicityFilters, setEthnicityFilters] = useState({
     "American Indian or Alaska Native": false,
     Asian: false,
@@ -168,7 +168,7 @@ export default function Poll(props) {
       }).then(async (response) => {
         await response.json().then((res) => {
           setData(res);
-          setNumVotes(countVotes(res.options));
+          // setNumVotes(countVotes(res.options));
           setChart(<DataChart data={res}></DataChart>);
         });
       });
@@ -176,18 +176,18 @@ export default function Poll(props) {
 
     // check to see if user has not voted on this poll yet
     // if not, send back to voting page
-    if (user?.mongoData && pollID) {
-      let voted = false;
-      const votedPolls = user.mongoData.votedPolls;
-      votedPolls.forEach((poll) => {
-        if (poll == pollID) {
-          voted = true;
-        }
-      });
-      if (!voted) {
-        router.push(`/vote?id=${pollID}`);
-      }
-    }
+    // if (user?.mongoData && pollID) {
+    //   let voted = false;
+    //   const votedPolls = user.mongoData.votedPolls;
+    //   votedPolls.forEach((poll) => {
+    //     if (poll == pollID) {
+    //       voted = true;
+    //     }
+    //   });
+    //   if (!voted) {
+    //     router.push(`/vote?id=${pollID}`);
+    //   }
+    // }
   }, [user]);
 
   function copyToClipboard() {
@@ -209,13 +209,13 @@ export default function Poll(props) {
     <div>
       <Navbar></Navbar>
       <div className={styles.main}>
-        <DropdownFilter
+        {/* <DropdownFilter
           title={"Filters"}
           ethnicityUpdate={handleEthnicityFilter}
           genderUpdate={handleGenderFilter}
           ethnicities={ethnicities}
           genders={genders}
-        ></DropdownFilter>
+        ></DropdownFilter> */}
         <h2 className={styles.title}>{data.question}</h2>
         <p className={styles.voteCount}>{`Total votes - ${numVotes}`}</p>
         <div>{chart}</div>

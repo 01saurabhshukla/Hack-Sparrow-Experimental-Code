@@ -1,0 +1,22 @@
+# Ignore system-specific files
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Ignore Next.js build artifacts
+node_modules/
+.next/
+
+# Ignore development-specific files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore package manager files
+npm-debug.log
+yarn-error.log
+
+# Ignore editor and IDE specific files
+.vscode/
+.idea/
