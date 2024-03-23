@@ -15,9 +15,7 @@ export default function Home() {
         </div>
       <div className={styles.imageBlock}>
         <div className={styles.videoContainer}>
-          <video className={styles.vidFrame} autoPlay muted loop>
-            <source src={'https://res.cloudinary.com/dkmgxd9ef/video/upload/v1651213670/TortlePoll/Lasagna-clip_dmfgly.mp4'}></source>
-          </video>
+           <img src="https://res.cloudinary.com/dmaoeqx1k/image/upload/v1711171767/EventBuzz/loa2dzygkftrm7beuhlz.png"  style={imageStyle} alt="Description of the image"  />
         </div>
       </div>
       <div className={styles.subtitleBlock}>
@@ -27,8 +25,7 @@ export default function Home() {
       </div>
       <div className={styles.imageBlock}>
         <div className={styles.videoContainer}>
-          <video className={styles.vidFrame} autoPlay muted loop>
-            <source src={'https://res.cloudinary.com/dkmgxd9ef/video/upload/v1651173771/TortlePoll/Filter-polls_nmkd5d.mp4'}></source>
+            <img src='https://res.cloudinary.com/dkmgxd9ef/video/upload/v1651173771/TortlePoll/Filter-polls_nmkd5d.mp4'  style={imageStyle} ></source>
           </video>
         </div>
       </div>
