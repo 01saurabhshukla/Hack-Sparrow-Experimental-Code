@@ -1,0 +1,92 @@
+.main {
+    background-color: var(--main);
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    width: 92vw;
+    max-width: 88rem;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding-left: 4%;
+    padding-right: 4%;
+    padding-top: 2%;
+    padding-bottom: 3%;
+}
+
+.title {
+    font-size: 1.5rem;
+}
+
+.voteCount {
+    padding-top: 0.4rem;
+    opacity: 0.8;
+    line-height: 0;
+}
+
+.flexContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 7%;
+}
+
+.barMain {
+    width: 55%;
+    display: flex;
+    flex-direction: row;
+}
+
+.barContainer {
+    margin-top: -0.8rem;
+    margin-left: -0.7rem;
+    min-width: 16rem;
+    width: calc(100% - 10rem);
+    height: 340px;
+}
+
+.votes {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    width: 10rem;
+    margin-top: 2px;
+    gap: 4px;
+}
+
+.voteBox {
+    white-space: nowrap;
+}
+
+.donutContainer {
+    margin-top: 3rem;
+    min-width: 14rem;
+    width: 35%;
+}
+
+@media screen and (max-width: 680px) {
+    .barMain {
+        margin-top: 16px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+    .flexContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 0%;
+    }
+    
+    .barContainer {
+        min-width: 0;
+        margin-top: -0.8rem;
+        margin-left: -0.7rem;
+        width: 100%;
+    }
+    
+    .donutContainer {
+        margin-top: 1rem;
+        width: 80%;
+        align-self: center;
+        margin-bottom: 2rem;
+    }
+  }
