@@ -11,11 +11,11 @@ export default function Home() {
     <div className={styles.page}>
       <Navbar></Navbar>
       <div className={styles.subtitleBlock}>
-          <p style={{fontSize: "1.4rem"}}>Enjoy live results</p>
+          <p style={{fontSize: "1.4rem"}}>Enjoy results</p>
         </div>
-      <div className={styles.imageBlock}>
-        <div className={styles.videoContainer}>
-           <img src="https://res.cloudinary.com/dmaoeqx1k/image/upload/v1711171767/EventBuzz/loa2dzygkftrm7beuhlz.png"  style={imageStyle} alt="Description of the image"  />
+      <div className={styles.imageContainer}>
+        <div className={styles.imageBlock}>
+           <img src={"https://res.cloudinary.com/dmaoeqx1k/image/upload/v1711236084/EventBuzz/odlcoeaouljeuasjehhd.png"} className={styles.imageContainer} alt="Description of the image"  />
         </div>
       </div>
       <div className={styles.subtitleBlock}>
@@ -24,9 +24,8 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.imageBlock}>
-        <div className={styles.videoContainer}>
-            <img src='https://res.cloudinary.com/dkmgxd9ef/video/upload/v1651173771/TortlePoll/Filter-polls_nmkd5d.mp4'  style={imageStyle} ></source>
-          </video>
+        <div className={styles.imageBlock}>
+            <img src={"https://res.cloudinary.com/dmaoeqx1k/image/upload/v1711236084/EventBuzz/sb5qwbg5orta7uh6ju79.png"} className={styles.imageContainer} alt="Description of the image" />
         </div>
       </div>
     </div>

@@ -328,9 +328,9 @@ export default function PollForm() {
             </div> */}
           <h3 style={{ marginLeft: 3 + "rem" }}>Settings</h3>
           <div className={styles.settings}>
-            <p className={styles.switchText} htmlFor="private">
+            {/* <p className={styles.switchText} htmlFor="private">
               Private (only via shared link)
-            </p>
+            </p> */}
             <Switch
               className={styles.switch}
               onChange={handleSwitch}
