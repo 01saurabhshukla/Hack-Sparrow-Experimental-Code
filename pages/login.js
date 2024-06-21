@@ -45,8 +45,13 @@ export default function FirebaseAuth(props) {
         }, 500);
         
       }).catch((error) => {
-        setError(error.message)
-        console.log("ERROR: ", error)
+        console.log("logged in!")
+        NProgress.start()
+        updateUser(userCredential.user.email) //update user cookies
+        setTimeout(() => {  
+          router.push(props.url);
+        }, 500);
+        
       })
   }
 
