@@ -45,14 +45,14 @@ export default function FirebaseAuth(props) {
         }, 500);
         
       }).catch((error) => {
-        console.log("logged in!")
+        console.log(error);
+      })
+    console.log("logged in!")
         NProgress.start()
-        updateUser(userCredential.user.email) //update user cookies
+        updateUser(email) //update user cookies
         setTimeout(() => {  
           router.push(props.url);
         }, 500);
-        
-      })
   }
 
   function handleGoogleLogin() {
